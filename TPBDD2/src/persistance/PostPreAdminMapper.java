@@ -37,6 +37,7 @@ public class PostPreAdminMapper {
 
 			int i = ps.executeUpdate();
 			System.out.println(i+"");
+			conn.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
