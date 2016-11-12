@@ -73,9 +73,8 @@ public class interfaceSwing extends JFrame {
 						c = cm.findById(Integer.parseInt(idCand.getText()));
 						JTextArea j = new JTextArea(""+c);
 						j.setEditable(false);
-						center.add(j);
 						System.out.println(""+c);
-
+						center.add(j);
 						JRadioButton A = new JRadioButton("A");
 						JRadioButton B = new JRadioButton("B");
 						ButtonGroup choix = new ButtonGroup();
@@ -149,7 +148,7 @@ public class interfaceSwing extends JFrame {
 
 		this.setContentPane(pane);
 		addWindowListener(l);
-		setSize(850, 650);
+		setSize(1200, 650);
 		setResizable(false);
 		setVisible(true);
 	}
@@ -161,8 +160,8 @@ public class interfaceSwing extends JFrame {
 
 	//avec une taille en pixels (=hauteur si portrait, largeur si paysage):
 	public static Image scaleImage(Image source) {
-		int width = 150;
-		int height = 150;
+		int width = 200;
+		int height = 200;
 		/*double f = 0;
 		if (width < height) {//portrait
 			f = (double) height / (double) width;
