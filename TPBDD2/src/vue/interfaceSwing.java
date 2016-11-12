@@ -34,6 +34,7 @@ public class interfaceSwing extends JFrame {
 	JPanel east;
 	JPanel pane;
 	JButton valider;
+	Boolean ch;
 	//ImagePane image;
 
 	public interfaceSwing() {
@@ -52,7 +53,7 @@ public class interfaceSwing extends JFrame {
 		west = new JPanel();
 		east = new JPanel();
 		valider = new JButton("Valider");
-
+		ch = null;
 		this.setLocationRelativeTo(null);
 		idCand.setPreferredSize(new Dimension(50, 30));
 		pane.setLayout(new BorderLayout());
@@ -61,36 +62,7 @@ public class interfaceSwing extends JFrame {
 		idCand.addActionListener(
 				new ActionListener(){ 
 
-					public String getCitation(){
-						Candidat c;
-						Connection conn;
-						ResultSet rs;
-						String str = "";
-
-						conn = Oracle.getConnection("DELPORTE2", Mdp.mdp);
-						try {
-							conn.setAutoCommit(false);
-						} catch (SQLException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-						try {
-
-							String req = "SELECT liste FROM (SELECT liste FROM citationbis ORDER BY dbms_random.value) WHERE rownum = 1";
-							PreparedStatement ps = conn.prepareStatement(req);
-
-							rs = ps.executeQuery();
-							while (rs.next()) {
-								str = rs.getString("liste");
-							}
-						} catch (Exception e) {
-							e.printStackTrace();
-							System.exit(1);
-						}
-						return str;
-					}
-
+					
 					public void actionPerformed(ActionEvent e){   
 						Candidat c = new Candidat(Integer.parseInt(idCand.getText()));
 						CandidatMapper cm = new CandidatMapper();
@@ -112,7 +84,7 @@ public class interfaceSwing extends JFrame {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub
-
+								ch = new Boolean(true);
 							}
 						});
 						B.addActionListener(new ActionListener() {
@@ -120,14 +92,28 @@ public class interfaceSwing extends JFrame {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub
-
+								ch = new Boolean(false);
 							}
 						});
 						choix.add(A);
 						choix.add(B);
-
+						valider.addActionListener(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								// TODO Auto-generated method stub
+								if ( ch != null){
+									if (ch){
+										
+									} else {
+										
+									}
+								}
+							}
+						});
 						east.add(A);
 						east.add(B);
+						east.add(valider);
 						PhotoMapper pm = new PhotoMapper();
 						try {
 							pm.getPhoto(c.getIdCand());
@@ -135,7 +121,7 @@ public class interfaceSwing extends JFrame {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						ImageIcon icon = new ImageIcon("photo.jpg");
+						ImageIcon icon =new ImageIcon("photo.jpg");
 						//Image zoom = scaleImage(icon.getImage(), 0.5d);//facteur
 						Image zoom = scaleImage(icon.getImage());//taille en pixels
 						System.out.println(icon.toString());
