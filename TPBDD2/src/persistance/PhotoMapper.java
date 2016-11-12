@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import testConnexion.Oracle;
+import vue.interfaceSwing;
 import connexion.Mdp;
 
 public class PhotoMapper {
@@ -48,7 +49,7 @@ public class PhotoMapper {
 			Blob blob = rs.getBlob(1);
 			try {
 				s= "photo.jpg";
-				File fileOut= new File("photo.jpg");
+				File fileOut= new File("photo"+interfaceSwing.t+".jpg");
 				FileOutputStream fos = new FileOutputStream(fileOut);
 				fos.write( blob.getBytes(1,(int) blob.length()) );
 				fos.close();

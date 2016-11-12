@@ -1,27 +1,32 @@
 package vue;
 
-import javax.swing.*;
-
-import persistance.CandidatMapper;
-import persistance.PhotoMapper;
-import testConnexion.Oracle;
-import candidats.Candidat;
-import connexion.Mdp;
-import javafx.scene.layout.Pane;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics2D;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.RenderingHints;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+import candidats.Candidat;
+import persistance.CandidatMapper;
+import persistance.PhotoMapper;
 
 public class interfaceSwing extends JFrame {
 
@@ -34,6 +39,7 @@ public class interfaceSwing extends JFrame {
 	JPanel east;
 	JPanel pane;
 	JButton valider;
+	public static int t = 0;
 	Boolean ch;
 	//ImagePane image;
 
@@ -75,8 +81,8 @@ public class interfaceSwing extends JFrame {
 						j.setEditable(false);
 						System.out.println(""+c);
 						center.add(j);
-						JRadioButton A = new JRadioButton("A");
-						JRadioButton B = new JRadioButton("B");
+						JRadioButton A = new JRadioButton("(A) : Attendre un éventuel désistement");
+						JRadioButton B = new JRadioButton("(B) : Renoncer à postuler");
 						ButtonGroup choix = new ButtonGroup();
 						A.addActionListener(new ActionListener() {
 
@@ -101,6 +107,7 @@ public class interfaceSwing extends JFrame {
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub
+								System.out.println(ch);
 								if ( ch != null){
 									if (ch){
 										
@@ -110,17 +117,28 @@ public class interfaceSwing extends JFrame {
 								}
 							}
 						});
+						east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
+
 						east.add(A);
 						east.add(B);
 						east.add(valider);
 						PhotoMapper pm = new PhotoMapper();
 						try {
 							pm.getPhoto(c.getIdCand());
+							t++;
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
-						ImageIcon icon =new ImageIcon("photo.jpg");
+						ImageIcon icon=null;
+//						if(t==0){
+//						 icon =new ImageIcon("photo.jpg");
+//						 t++;
+//						}else{
+							System.out.println("---2");
+						 icon =new ImageIcon("photo"+(t-1)+".jpg");
+					//	 t--;
+//						}
 						//Image zoom = scaleImage(icon.getImage(), 0.5d);//facteur
 						Image zoom = scaleImage(icon.getImage());//taille en pixels
 						System.out.println(icon.toString());
@@ -148,9 +166,10 @@ public class interfaceSwing extends JFrame {
 
 		this.setContentPane(pane);
 		addWindowListener(l);
-this.pack();
-		this.setLocationRelativeTo(null);
+		
 		setSize(1200, 650);
+		setLocation(10, 10);
+		setSize(1200, 450);
 		setResizable(false);
 		setVisible(true);
 	}
@@ -184,6 +203,7 @@ this.pack();
 	    return scaleImage(source, width, height);
 	}*/
 	public static Image scaleImage(Image source, int width, int height) {
+		
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D) img.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
