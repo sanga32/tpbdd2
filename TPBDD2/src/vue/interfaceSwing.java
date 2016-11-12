@@ -135,6 +135,7 @@ public class interfaceSwing extends JFrame {
 									jop1.showMessageDialog(null, "Votre choix à bien été pris en compte.", "Information", JOptionPane.INFORMATION_MESSAGE); 
 									east.removeAll();
 									east.add(new JLabel("Votre choix à déjà été pris en compte"));
+									pane.updateUI();
 
 								}
 							}

@@ -35,10 +35,8 @@ public class PostPreAdminMapper {
 			ps.setInt(1, id);
 			ps.setString(2, option);
 
-			rs = ps.executeQuery();
-			while (rs.next()) {
-				
-			}
+			int i = ps.executeUpdate();
+			System.out.println(i+"");
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
