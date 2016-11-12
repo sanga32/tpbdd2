@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
@@ -27,6 +28,7 @@ import javax.swing.JTextField;
 import candidats.Candidat;
 import persistance.CandidatMapper;
 import persistance.PhotoMapper;
+import persistance.PostPreAdminMapper;
 
 public class interfaceSwing extends JFrame {
 
@@ -40,6 +42,7 @@ public class interfaceSwing extends JFrame {
 	JPanel pane;
 	JButton valider;
 	Boolean ch;
+	Candidat c;
 	//ImagePane image;
 
 	public interfaceSwing() {
@@ -67,9 +70,9 @@ public class interfaceSwing extends JFrame {
 		idCand.addActionListener(
 				new ActionListener(){ 
 
-					
+
 					public void actionPerformed(ActionEvent e){   
-						Candidat c = new Candidat(Integer.parseInt(idCand.getText()));
+						c = new Candidat(Integer.parseInt(idCand.getText()));
 						CandidatMapper cm = new CandidatMapper();
 						center.removeAll();
 						west.removeAll();
@@ -80,7 +83,19 @@ public class interfaceSwing extends JFrame {
 						j.setEditable(false);
 						System.out.println(""+c);
 						center.add(j);
-						JRadioButton A = new JRadioButton("(A) : Attendre un éventuel désistement");
+						JRadioButton A = null; 
+
+						if ( c.getPa() == null ){
+							A = new JRadioButton("(A) : Attendre un éventuel désistement");
+						} else {
+							if ( c.getPa().getNumeroVoeu() != 1){
+								A = new JRadioButton("(A) : Attendre un désistement pour un voeu prioritaire");
+							}else {
+								A = new JRadioButton("(A) : Admission définitive");
+							}
+
+						}
+
 						JRadioButton B = new JRadioButton("(B) : Renoncer à postuler");
 						ButtonGroup choix = new ButtonGroup();
 						A.addActionListener(new ActionListener() {
@@ -102,25 +117,36 @@ public class interfaceSwing extends JFrame {
 						choix.add(A);
 						choix.add(B);
 						valider.addActionListener(new ActionListener() {
-							
+
 							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub
 								System.out.println(ch);
 								if ( ch != null){
+									PostPreAdminMapper pp = new PostPreAdminMapper();
+
 									if (ch){
-										
+										pp.insert(c.getIdCand(), "A");
 									} else {
-										
+										pp.insert(c.getIdCand(), "B");
 									}
+									JOptionPane jop1;      
+									jop1 = new JOptionPane();
+									jop1.showMessageDialog(null, "Votre choix à bien été pris en compte.", "Information", JOptionPane.INFORMATION_MESSAGE); 
+									east.removeAll();
+									east.add(new JLabel("Votre choix à déjà été pris en compte"));
+
 								}
 							}
 						});
 						east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
-
-						east.add(A);
-						east.add(B);
-						east.add(valider);
+						if (c.getOption() == null ){
+							east.add(A);
+							east.add(B);
+							east.add(valider);
+						} else {
+							east.add(new JLabel("Votre choix à déjà été pris en compte"));
+						}
 						PhotoMapper pm = new PhotoMapper();
 						try {
 							pm.getPhoto(c.getIdCand());
@@ -131,7 +157,6 @@ public class interfaceSwing extends JFrame {
 						ImageIcon icon =new ImageIcon("photo.jpg");
 						//Image zoom = scaleImage(icon.getImage(), 0.5d);//facteur
 						Image zoom = scaleImage(icon.getImage());//taille en pixels
-						System.out.println(icon.toString());
 						Icon iconScaled = new ImageIcon(zoom);
 						JLabel ball = new JLabel(iconScaled);
 
@@ -142,7 +167,6 @@ public class interfaceSwing extends JFrame {
 						pane.add(south, BorderLayout.SOUTH);
 						pane.add(center, BorderLayout.CENTER);
 						pane.add(east, BorderLayout.EAST);
-
 						pane.updateUI();
 					}
 				}                    
