@@ -58,6 +58,12 @@ public class CandidatMapper {
 		calculMoyenne();
 		getVoeux();
 		getPreadmission();
+		try {
+			getOption();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return c;
 	}
 	
@@ -136,4 +142,18 @@ public class CandidatMapper {
 			System.exit(1);
 		}
 	}
+
+	private void getOption() throws SQLException {
+		// TODO Auto-generated method stub
+		String req = "Select options from postpreadmin where IDCAND = ? ";
+		PreparedStatement ps = conn.prepareStatement(req);
+		ps.setInt(1, c.getIdCand());
+		rs = ps.executeQuery();
+		if (rs.next()){
+			c.setOption(rs.getString("options"));
+		} else {
+			c.setOption(null);
+		}
+	}
+	
 }

@@ -16,6 +16,7 @@ public class Candidat {
 	private double moyenne;
 	private List<Voeu> listeVoeux;
 	private Preadmin pa;
+	private String option;
 	
 	public Preadmin getPa() {
 		return pa;
@@ -69,7 +70,16 @@ public class Candidat {
 		this.idCand = idCand;
 		listeNotes = new HashMap<Epreuve, Double>();
 		listeVoeux = new ArrayList<Voeu>();
+		option = null;
 		
+	}
+
+	public String getOption() {
+		return option;
+	}
+
+	public void setOption(String option) {
+		this.option = option;
 	}
 
 	public int getIdCand() {
