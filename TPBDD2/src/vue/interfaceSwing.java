@@ -73,9 +73,8 @@ public class interfaceSwing extends JFrame {
 						c = cm.findById(Integer.parseInt(idCand.getText()));
 						JTextArea j = new JTextArea(""+c);
 						j.setEditable(false);
-						center.add(j);
 						System.out.println(""+c);
-
+						center.add(j);
 						JRadioButton A = new JRadioButton("A");
 						JRadioButton B = new JRadioButton("B");
 						ButtonGroup choix = new ButtonGroup();
@@ -149,7 +148,8 @@ public class interfaceSwing extends JFrame {
 
 		this.setContentPane(pane);
 		addWindowListener(l);
-		this.setLocation(10, 10);
+this.pack();
+		this.setLocationRelativeTo(null);
 		setSize(1200, 650);
 		setResizable(false);
 		setVisible(true);

@@ -19,6 +19,7 @@ public class AffImage extends JFrame {
     JTextField saisie; 
     ImagePaneTest d;  
     String filename;  
+    
     public AffImage() throws Exception { 
         p1 = new JPanel(new FlowLayout()); 
         prompt = new JLabel("nom du fichier Image:"); 
