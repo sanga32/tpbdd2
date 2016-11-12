@@ -42,6 +42,7 @@ public class interfaceSwing extends JFrame {
 	JPanel pane;
 	JButton valider;
 	public static int t = 0;
+	
 	Boolean ch;
 	Candidat c;
 	//ImagePane image;
@@ -150,23 +151,20 @@ public class interfaceSwing extends JFrame {
 							east.add(new JLabel("Votre choix à déjà été pris en compte"));
 						}
 						PhotoMapper pm = new PhotoMapper();
+						boolean isphoto=true;
 						try {
-							pm.getPhoto(c.getIdCand());
+							isphoto = pm.getPhoto(c.getIdCand());
 							t++;
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						ImageIcon icon=null;
-//						if(t==0){
-//						 icon =new ImageIcon("photo.jpg");
-//						 t++;
-//						}else{
-							System.out.println("---2");
-						 icon =new ImageIcon("photo"+(t-1)+".jpg");
-					//	 t--;
-//						}
-						//Image zoom = scaleImage(icon.getImage(), 0.5d);//facteur
+						if(isphoto){
+						icon=new ImageIcon("photo"+(t-1)+".jpg");
+						}else{
+							icon = new ImageIcon("photo.jpg");
+						}
 						Image zoom = scaleImage(icon.getImage());//taille en pixels
 						Icon iconScaled = new ImageIcon(zoom);
 						JLabel ball = new JLabel(iconScaled);

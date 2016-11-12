@@ -39,13 +39,16 @@ public class PhotoMapper {
 
 	}
 
-	public void getPhoto(int idCand) throws Exception { 
+	public boolean getPhoto(int idCand) throws Exception { 
 		String sql = "SELECT photo FROM photo WHERE idCand ="+idCand ;
 		PreparedStatement statement = conn.prepareStatement(sql);
 		rs = statement.executeQuery();
 		BufferedImage b;
-		
-		while(rs.next()){
+		if(!rs.next()){
+			System.out.println("test");
+			return false;
+
+		}else{
 			Blob blob = rs.getBlob(1);
 			try {
 				s= "photo.jpg";
@@ -58,5 +61,6 @@ public class PhotoMapper {
 
 			}
 		}
+		return true;
 	}; 
 }

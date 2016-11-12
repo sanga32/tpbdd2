@@ -26,8 +26,8 @@ public class InsertImage {
 
 		String sql = "INSERT INTO PHOTO (idcand, photo) VALUES (?, ?)";
 		PreparedStatement stmt = conn.prepareStatement(sql);
-		stmt.setInt(1, 15);
-		File fichier = new File("/home/m1miage/delportek/Images/photo15.jpg");
+		stmt.setInt(1, 1);
+		File fichier = new File("C:\\Users\\Allan\\Pictures\\Donald-Trump.jpg");
 		FileInputStream fis = new FileInputStream(fichier);
 		stmt.setBinaryStream(2, fis, (int) fichier.length());
 		stmt.execute();
