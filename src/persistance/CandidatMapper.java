@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import candidats.Admin;
 import candidats.Candidat;
 import candidats.Ecole;
 import candidats.Epreuve;
@@ -136,6 +137,28 @@ public class CandidatMapper {
 				c.setPa(p);
 			} else {
 				c.setPa(null);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+	}
+	
+	private void getAdmission(){
+		try {
+			EcoleMapper em = new EcoleMapper();
+			Admin a;
+			String req = "Select idc, ide, rang, numerovoeu from admin where IDCAND = ? ";
+			PreparedStatement ps = conn.prepareStatement(req);
+			ps.setInt(1, c.getIdCand());
+			rs = ps.executeQuery();
+			if ( rs.next()){
+				Ecole e = em.findById(rs.getInt("ide"));
+				a = new Admin(e, rs.getInt("rang"), rs.getInt("numerovoeu"));
+				c.setAdmission(a);
+			} else {
+				c.setAdmission(null);
 			}
 			
 		} catch (Exception e) {

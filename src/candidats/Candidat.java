@@ -17,6 +17,7 @@ public class Candidat {
 	private List<Voeu> listeVoeux;
 	private Preadmin pa;
 	private String option;
+	private Admin a;
 	
 	public Preadmin getPa() {
 		return pa;
@@ -71,6 +72,7 @@ public class Candidat {
 		listeNotes = new HashMap<Epreuve, Double>();
 		listeVoeux = new ArrayList<Voeu>();
 		option = null;
+		a = null;
 		
 	}
 
@@ -138,5 +140,10 @@ public class Candidat {
 	
 	public void addNote(Epreuve e, double d){
 		listeNotes.put(e, d);
+	}
+
+	public void setAdmission(Admin a) {
+		// TODO Auto-generated method stub
+		this.a = a;
 	}
 }

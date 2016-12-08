@@ -88,40 +88,43 @@ public class interfaceSwing extends JFrame {
 						JRadioButton A = null; 
 
 						if ( c.getPa() == null ){
-							A = new JRadioButton("(A) : Attendre un éventuel désistement");
+							A = new JRadioButton("(A) : Attendre un ï¿½ventuel dï¿½sistement");
 						} else {
 							if ( c.getPa().getNumeroVoeu() != 1){
-								A = new JRadioButton("(A) : Attendre un désistement pour un voeu prioritaire");
+								A = new JRadioButton("(A) : Attendre un dï¿½sistement pour un voeu prioritaire");
 							}else {
-								A = new JRadioButton("(A) : Admission définitive");
+								A = new JRadioButton("(A) : Admission dï¿½finitive");
 							}
 
 						}
 
-						JRadioButton B = new JRadioButton("(B) : Renoncer à postuler");
+						JRadioButton B = new JRadioButton("(B) : Renoncer ï¿½ postuler");
 						ButtonGroup choix = new ButtonGroup();
 						A.addActionListener(new ActionListener() {
 
-							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub
 								ch = new Boolean(true);
+
 							}
+
+							
 						});
 						B.addActionListener(new ActionListener() {
 
-							@Override
 							public void actionPerformed(ActionEvent e) {
 								// TODO Auto-generated method stub
 								ch = new Boolean(false);
 							}
+
+							
 						});
 						choix.add(A);
 						choix.add(B);
 						valider.addActionListener(new ActionListener() {
 
-							@Override
 							public void actionPerformed(ActionEvent e) {
+								// TODO Auto-generated method stub
 								// TODO Auto-generated method stub
 								System.out.println(ch);
 								if ( ch != null){
@@ -134,13 +137,15 @@ public class interfaceSwing extends JFrame {
 									}
 									JOptionPane jop1;      
 									jop1 = new JOptionPane();
-									jop1.showMessageDialog(null, "Votre choix à bien été pris en compte.", "Information", JOptionPane.INFORMATION_MESSAGE); 
+									jop1.showMessageDialog(null, "Votre choix ï¿½ bien ï¿½tï¿½ pris en compte.", "Information", JOptionPane.INFORMATION_MESSAGE); 
 									east.removeAll();
-									east.add(new JLabel("Votre choix à déjà été pris en compte"));
+									east.add(new JLabel("Votre choix ï¿½ dï¿½jï¿½ ï¿½tï¿½ pris en compte"));
 									pane.updateUI();
 
 								}
 							}
+
+							
 						});
 						east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
 						if (c.getOption() == null ){
@@ -148,7 +153,7 @@ public class interfaceSwing extends JFrame {
 							east.add(B);
 							east.add(valider);
 						} else {
-							east.add(new JLabel("Votre choix à déjà été pris en compte"));
+							east.add(new JLabel("Votre choix ï¿½ dï¿½jï¿½ ï¿½tï¿½ pris en compte"));
 						}
 						PhotoMapper pm = new PhotoMapper();
 						boolean isphoto=true;
@@ -197,10 +202,6 @@ public class interfaceSwing extends JFrame {
 		setVisible(true);
 	}
 
-	public static void main(String [] args){
-		JFrame frame = new interfaceSwing();
-
-	}
 
 	//avec une taille en pixels (=hauteur si portrait, largeur si paysage):
 	public static Image scaleImage(Image source) {
