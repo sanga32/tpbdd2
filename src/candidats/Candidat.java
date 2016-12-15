@@ -125,7 +125,7 @@ public class Candidat {
 		for ( Voeu v : listeVoeux){
 			voeux+= v;
 		}
-		String s ="Candidat n°"+idCand + "\nNom: "+ nom + "\nPrenom: "+prenom+"\nDate de naissance: "+datenais+ "\nAdresse: "+adresse+ "\nNotes: "+ listeNotes+"\n"+"Moyenne: "+ moyenne+"\n"+voeux+"\n";
+		String s ="Candidat n°"+idCand + "\nNom: "+ nom + "\nPrenom: "+prenom+"\nDate de naissance: "+datenais+ "\nAdresse: "+adresse+ "\nNotes: "+ listeNotes+"\n"+"Moyenne: "+ moyenne+ "\nRang:"+rang+"\n"+voeux+"\n";
 		if (pa == null){
 			s += "Ce candidat n'est admis dans aucune école";
 		} else {
@@ -145,5 +145,9 @@ public class Candidat {
 	public void setAdmission(Admin a) {
 		// TODO Auto-generated method stub
 		this.a = a;
+	}
+	
+	public Admin getAdmission(){
+		return a;
 	}
 }

@@ -25,14 +25,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import candidats.Candidat;
 import persistance.CandidatMapper;
-import persistance.CitationMapper;
 import persistance.PhotoMapper;
 import persistance.PostPreAdminMapper;
+import candidats.Candidat;
 
-public class interfaceSwing extends JFrame {
-
+public class InterfaceAdmission extends JFrame {
 
 	JTextField idCand;
 	JPanel top ;
@@ -43,12 +41,12 @@ public class interfaceSwing extends JFrame {
 	JPanel pane;
 	JButton valider;
 	public static int t = 0;
-	
+
 	Boolean ch;
 	Candidat c;
 	//ImagePane image;
 
-	public interfaceSwing() {
+	public InterfaceAdmission() {
 		super("Fiche candidat");
 
 		WindowListener l = new WindowAdapter() {
@@ -82,7 +80,6 @@ public class interfaceSwing extends JFrame {
 						south.removeAll();
 						east.removeAll();
 						c = cm.findById(Integer.parseInt(idCand.getText()));
-						
 						String description =""+c;
 
 						PostPreAdminMapper pam=  new PostPreAdminMapper();
@@ -91,21 +88,12 @@ public class interfaceSwing extends JFrame {
 
 						if ( option.equals("A")){
 							description  += "\nVous aviez choisi de rester dans le concours";
-							if ( c.getAdmission() == null){
-								description  += "\nVous n'avez pas été retenu";
-							} else {
-								description  += "\nVous êtes finalement admis a "+c.getAdmission().getE().getNomcomplet();
-							}
 						} else {
 							description  += "\nVous aviez choisi de demissionner";
 
 						}
 
-						
-						
-						
-						JTextArea j = new JTextArea(description+"\n");
-
+						JTextArea j = new JTextArea(description);
 						j.setEditable(false);
 						System.out.println(""+c);
 						center.add(j);
@@ -132,7 +120,7 @@ public class interfaceSwing extends JFrame {
 
 							}
 
-							
+
 						});
 						B.addActionListener(new ActionListener() {
 
@@ -141,7 +129,7 @@ public class interfaceSwing extends JFrame {
 								ch = new Boolean(false);
 							}
 
-							
+
 						});
 						choix.add(A);
 						choix.add(B);
@@ -169,7 +157,7 @@ public class interfaceSwing extends JFrame {
 								}
 							}
 
-							
+
 						});
 						east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
 						if (c.getOption() == null ){
@@ -190,7 +178,7 @@ public class interfaceSwing extends JFrame {
 						}
 						ImageIcon icon=null;
 						if(isphoto){
-						icon=new ImageIcon("photo"+(t-1)+".jpg");
+							icon=new ImageIcon("photo"+(t-1)+".jpg");
 						}else{
 							icon = new ImageIcon("photo.jpg");
 						}
@@ -201,10 +189,6 @@ public class interfaceSwing extends JFrame {
 						JLabel image = new JLabel( iconScaled);
 						image.setSize(30, 30);
 						west.add(image);
-						
-						CitationMapper cim = new CitationMapper();
-						JLabel citation = new JLabel(cim.getCitation());
-						south.add(citation);
 						pane.add(west, BorderLayout.WEST);						
 						pane.add(south, BorderLayout.SOUTH);
 						pane.add(center, BorderLayout.CENTER);
@@ -222,7 +206,7 @@ public class interfaceSwing extends JFrame {
 
 		this.setContentPane(pane);
 		addWindowListener(l);
-		
+
 		setSize(1200, 650);
 		setLocation(10, 10);
 		setSize(1200, 450);
@@ -255,7 +239,7 @@ public class interfaceSwing extends JFrame {
 	    return scaleImage(source, width, height);
 	}*/
 	public static Image scaleImage(Image source, int width, int height) {
-		
+
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D) img.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
@@ -263,4 +247,5 @@ public class interfaceSwing extends JFrame {
 		g.dispose();
 		return img;
 	}
+
 }

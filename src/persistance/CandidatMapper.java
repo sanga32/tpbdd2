@@ -4,10 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
+import java.text.DecimalFormat;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import testConnexion.Oracle;
 import candidats.Admin;
 import candidats.Candidat;
 import candidats.Ecole;
@@ -15,7 +16,6 @@ import candidats.Epreuve;
 import candidats.Preadmin;
 import candidats.Voeu;
 import connexion.Mdp;
-import testConnexion.Oracle;
 
 public class CandidatMapper {
 
@@ -32,7 +32,7 @@ public class CandidatMapper {
 			e.printStackTrace();
 		}
 
-		
+
 	}
 
 	public Candidat findById(int id){
@@ -59,16 +59,17 @@ public class CandidatMapper {
 		calculMoyenne();
 		getVoeux();
 		getPreadmission();
+		getAdmission();
 		try {
 			getOption();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return c;
 	}
-	
+
 	private void getVoeux() {
 		// TODO Auto-generated method stub
 		try {
@@ -91,15 +92,14 @@ public class CandidatMapper {
 
 	private void calculMoyenne() {
 		// TODO Auto-generated method stub
-		double moyenne = 0;
+		Double moyenne = new Double(0);
 		int nbNotes = 0;
 		Map<Epreuve, Double> map = c.getListeNotes();
 		for(Entry<Epreuve, Double> entry : map.entrySet()) {
-		    Epreuve e = entry.getKey();
-		    moyenne += entry.getValue()*e.getCoeff();
-		    nbNotes ++;
+			Epreuve e = entry.getKey();
+			moyenne += entry.getValue()*e.getCoeff();
+			nbNotes ++;
 		}
-		
 		c.setMoyenne(moyenne);
 	}
 
@@ -122,7 +122,7 @@ public class CandidatMapper {
 			System.exit(1);
 		}
 	}
-	
+
 	private void getPreadmission(){
 		try {
 			EcoleMapper em = new EcoleMapper();
@@ -138,18 +138,18 @@ public class CandidatMapper {
 			} else {
 				c.setPa(null);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
 	}
-	
+
 	private void getAdmission(){
 		try {
 			EcoleMapper em = new EcoleMapper();
 			Admin a;
-			String req = "Select idc, ide, rang, numerovoeu from admin where IDCAND = ? ";
+			String req = "Select idc, ide, rang, numerovoeu from admin where IDC = ? ";
 			PreparedStatement ps = conn.prepareStatement(req);
 			ps.setInt(1, c.getIdCand());
 			rs = ps.executeQuery();
@@ -160,7 +160,7 @@ public class CandidatMapper {
 			} else {
 				c.setAdmission(null);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -179,5 +179,5 @@ public class CandidatMapper {
 			c.setOption(null);
 		}
 	}
-	
+
 }

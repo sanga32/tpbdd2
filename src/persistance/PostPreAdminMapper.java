@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import candidats.Admin;
 import candidats.Candidat;
+import candidats.Ecole;
 import connexion.Mdp;
 import testConnexion.Oracle;
 
@@ -45,5 +47,21 @@ public class PostPreAdminMapper {
 		
 	}
 	
+	public String getOption(int idcand){
+		String option = "";
+		try {
+			String req = "Select options from postpreadmin where idcand = ? ";
+			PreparedStatement ps = conn.prepareStatement(req);
+			ps.setInt(1, idcand);
+			rs = ps.executeQuery();
+			if ( rs.next()){
+				option = "" + rs.getString("options");
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.exit(1);
+		}
+		return option;
+	}
 	
 }

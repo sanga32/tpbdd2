@@ -2,6 +2,7 @@ package service;
 
 import javax.swing.JFrame;
 
+import vue.InterfaceAdmission;
 import vue.interfaceSwing;
 
 public class Main {
