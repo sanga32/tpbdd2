@@ -44,6 +44,9 @@ public class CandidatMapper {
 			ps.setString(1, id+"");
 
 			rs = ps.executeQuery();
+			if (rs.next() == false ){
+				return null;
+			}
 			while (rs.next()) {
 				c.setNom(rs.getString("NOM"));
 				c.setPrenom(rs.getString("PRENOM"));

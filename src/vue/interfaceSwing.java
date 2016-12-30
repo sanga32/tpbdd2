@@ -43,7 +43,7 @@ public class interfaceSwing extends JFrame {
 	JPanel pane;
 	JButton valider;
 	public static int t = 0;
-	
+
 	Boolean ch;
 	Candidat c;
 	//ImagePane image;
@@ -73,7 +73,6 @@ public class interfaceSwing extends JFrame {
 		idCand.addActionListener(
 				new ActionListener(){ 
 
-
 					public void actionPerformed(ActionEvent e){   
 						c = new Candidat(Integer.parseInt(idCand.getText()));
 						CandidatMapper cm = new CandidatMapper();
@@ -82,134 +81,137 @@ public class interfaceSwing extends JFrame {
 						south.removeAll();
 						east.removeAll();
 						c = cm.findById(Integer.parseInt(idCand.getText()));
-						
+
 						String description =""+c;
 
 						PostPreAdminMapper pam=  new PostPreAdminMapper();
 
-						String option = pam.getOption(c.getIdCand());
+						if ( c == null){
+							JOptionPane.showMessageDialog(null, "Ce candidat n'existe pas", "Erreur", JOptionPane.ERROR_MESSAGE);
+						}
 
-						if ( option.equals("A")){
-							description  += "\nVous aviez choisi de rester dans le concours";
-							if ( c.getAdmission() == null){
-								description  += "\nVous n'avez pas Ã©tÃ© retenu";
+						try{
+							String option = pam.getOption(c.getIdCand());
+
+							if ( option.equals("A")){
+								description  += "\nVous aviez choisi de rester dans le concours";
+								if ( c.getAdmission() == null){
+									description  += "\nVous n'avez pas été retenu";
+								} else {
+									description  += "\nVous etes finalement admis a "+c.getAdmission().getE().getNomcomplet();
+								}
 							} else {
-								description  += "\nVous Ãªtes finalement admis a "+c.getAdmission().getE().getNomcomplet();
-							}
-						} else {
-							description  += "\nVous aviez choisi de demissionner";
-
-						}
-
-						
-						
-						
-						JTextArea j = new JTextArea(description+"\n");
-
-						j.setEditable(false);
-						System.out.println(""+c);
-						center.add(j);
-						JRadioButton A = null; 
-
-						if ( c.getPa() == null ){
-							A = new JRadioButton("(A) : Attendre un ï¿½ventuel dï¿½sistement");
-						} else {
-							if ( c.getPa().getNumeroVoeu() != 1){
-								A = new JRadioButton("(A) : Attendre un dï¿½sistement pour un voeu prioritaire");
-							}else {
-								A = new JRadioButton("(A) : Admission dï¿½finitive");
-							}
-
-						}
-
-						JRadioButton B = new JRadioButton("(B) : Renoncer ï¿½ postuler");
-						ButtonGroup choix = new ButtonGroup();
-						A.addActionListener(new ActionListener() {
-
-							public void actionPerformed(ActionEvent e) {
-								// TODO Auto-generated method stub
-								ch = new Boolean(true);
+								description  += "\nVous aviez choisi de demissionner";
 
 							}
+							JTextArea j = new JTextArea(description+"\n");
 
-							
-						});
-						B.addActionListener(new ActionListener() {
+							j.setEditable(false);
+							System.out.println(""+c);
+							center.add(j);
+							JRadioButton A = null; 
 
-							public void actionPerformed(ActionEvent e) {
-								// TODO Auto-generated method stub
-								ch = new Boolean(false);
+							if ( c.getPa() == null ){
+								A = new JRadioButton("(A) : Attendre un éventuel désistement");
+							} else {
+								if ( c.getPa().getNumeroVoeu() != 1){
+									A = new JRadioButton("(A) : Attendre un désistement pour un voeu prioritaire");
+								}else {
+									A = new JRadioButton("(A) : Admission définitive");
+								}
+
 							}
+							JRadioButton B = new JRadioButton("(B) : Renoncer à postuler");
+							ButtonGroup choix = new ButtonGroup();
+							A.addActionListener(new ActionListener() {
 
-							
-						});
-						choix.add(A);
-						choix.add(B);
-						valider.addActionListener(new ActionListener() {
-
-							public void actionPerformed(ActionEvent e) {
-								// TODO Auto-generated method stub
-								// TODO Auto-generated method stub
-								System.out.println(ch);
-								if ( ch != null){
-									PostPreAdminMapper pp = new PostPreAdminMapper();
-
-									if (ch){
-										pp.insert(c.getIdCand(), "A");
-									} else {
-										pp.insert(c.getIdCand(), "B");
-									}
-									JOptionPane jop1;      
-									jop1 = new JOptionPane();
-									jop1.showMessageDialog(null, "Votre choix ï¿½ bien ï¿½tï¿½ pris en compte.", "Information", JOptionPane.INFORMATION_MESSAGE); 
-									east.removeAll();
-									east.add(new JLabel("Votre choix ï¿½ dï¿½jï¿½ ï¿½tï¿½ pris en compte"));
-									pane.updateUI();
+								public void actionPerformed(ActionEvent e) {
+									// TODO Auto-generated method stub
+									ch = new Boolean(true);
 
 								}
+
+
+							});
+							B.addActionListener(new ActionListener() {
+
+								public void actionPerformed(ActionEvent e) {
+									// TODO Auto-generated method stub
+									ch = new Boolean(false);
+								}
+
+
+							});
+							choix.add(A);
+							choix.add(B);
+							valider.addActionListener(new ActionListener() {
+
+								public void actionPerformed(ActionEvent e) {
+									// TODO Auto-generated method stub
+									// TODO Auto-generated method stub
+									System.out.println(ch);
+									if ( ch != null){
+										PostPreAdminMapper pp = new PostPreAdminMapper();
+
+										if (ch){
+											pp.insert(c.getIdCand(), "A");
+										} else {
+											pp.insert(c.getIdCand(), "B");
+										}
+										JOptionPane jop1;      
+										jop1 = new JOptionPane();
+										jop1.showMessageDialog(null, "Votre choix à bien été pris en compte.", "Information", JOptionPane.INFORMATION_MESSAGE); 
+										east.removeAll();
+										east.add(new JLabel("Votre choix à déjà été pris en compte"));
+										pane.updateUI();
+
+									}
+								}
+
+
+							});
+							east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
+							if (c.getOption() == null ){
+								east.add(A);
+								east.add(B);
+								east.add(valider);
+							} else {
+								east.add(new JLabel("Votre choix à déjà été pris en compte"));
 							}
+							PhotoMapper pm = new PhotoMapper();
+							boolean isphoto=true;
+							try {
+								isphoto = pm.getPhoto(c.getIdCand());
+								t++;
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							ImageIcon icon=null;
+							if(isphoto){
+								icon=new ImageIcon("photo"+(t-1)+".jpg");
+							}else{
+								icon = new ImageIcon("photo.jpg");
+							}
+							Image zoom = scaleImage(icon.getImage());//taille en pixels
+							Icon iconScaled = new ImageIcon(zoom);
+							JLabel ball = new JLabel(iconScaled);
 
-							
-						});
-						east.setLayout(new BoxLayout(east, BoxLayout.Y_AXIS));
-						if (c.getOption() == null ){
-							east.add(A);
-							east.add(B);
-							east.add(valider);
-						} else {
-							east.add(new JLabel("Votre choix ï¿½ dï¿½jï¿½ ï¿½tï¿½ pris en compte"));
-						}
-						PhotoMapper pm = new PhotoMapper();
-						boolean isphoto=true;
-						try {
-							isphoto = pm.getPhoto(c.getIdCand());
-							t++;
-						} catch (Exception e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
-						ImageIcon icon=null;
-						if(isphoto){
-						icon=new ImageIcon("photo"+(t-1)+".jpg");
-						}else{
-							icon = new ImageIcon("photo.jpg");
-						}
-						Image zoom = scaleImage(icon.getImage());//taille en pixels
-						Icon iconScaled = new ImageIcon(zoom);
-						JLabel ball = new JLabel(iconScaled);
+							JLabel image = new JLabel( iconScaled);
+							image.setSize(30, 30);
+							west.add(image);
 
-						JLabel image = new JLabel( iconScaled);
-						image.setSize(30, 30);
-						west.add(image);
-						
-						CitationMapper cim = new CitationMapper();
-						JLabel citation = new JLabel(cim.getCitation());
-						south.add(citation);
-						pane.add(west, BorderLayout.WEST);						
-						pane.add(south, BorderLayout.SOUTH);
-						pane.add(center, BorderLayout.CENTER);
-						pane.add(east, BorderLayout.EAST);
-						pane.updateUI();
+							CitationMapper cim = new CitationMapper();
+							JLabel citation = new JLabel(cim.getCitation().toString());
+							south.add(citation);
+							pane.add(west, BorderLayout.WEST);						
+							pane.add(south, BorderLayout.SOUTH);
+							pane.add(center, BorderLayout.CENTER);
+							pane.add(east, BorderLayout.EAST);
+							pane.updateUI();
+						} catch (NullPointerException ne){
+
+						}
 					}
 				}                    
 				);
@@ -222,7 +224,7 @@ public class interfaceSwing extends JFrame {
 
 		this.setContentPane(pane);
 		addWindowListener(l);
-		
+
 		setSize(1200, 650);
 		setLocation(10, 10);
 		setSize(1200, 450);
@@ -235,27 +237,12 @@ public class interfaceSwing extends JFrame {
 	public static Image scaleImage(Image source) {
 		int width = 200;
 		int height = 200;
-		/*double f = 0;
-		if (width < height) {//portrait
-			f = (double) height / (double) width;
-			width = (int) (size / f);
-			height = size;
-		} else {//paysage
-			f = (double) width / (double) height;
-			width = size;
-			height = (int) (size / f);
-		}*/
+
 		return scaleImage(source, width, height);
 	}
-	/*
-	//avec un facteur (<1 pour rÃ©trÃ©cir, >1 pour agrandir):
-	public static Image scaleImage(final Image source, final double factor) {
-	    int width = (int) (source.getWidth(null) * factor);
-	    int height = (int) (source.getHeight(null) * factor);
-	    return scaleImage(source, width, height);
-	}*/
+
 	public static Image scaleImage(Image source, int width, int height) {
-		
+
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = (Graphics2D) img.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);

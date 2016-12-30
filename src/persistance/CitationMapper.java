@@ -33,13 +33,13 @@ public class CitationMapper {
 
 		try {
 
-			String req = "SELECT  xmltype.extract(liste,'citations/citation[1]')  FROM (SELECT liste FROM citationsbis ORDER BY dbms_random.value) WHERE rownum = 1";
+			String req = "SELECT  extractvalue(liste,'citations/citation[1]/text()')  FROM (SELECT liste FROM citationsbis ORDER BY dbms_random.value) WHERE rownum = 1";
 			PreparedStatement ps = conn.prepareStatement(req);
 
 			rs = ps.executeQuery();
 			while (rs.next()) {
-				str = rs.getString("liste");
-				System.out.println(str+"rrrrrrrrr");
+				str = rs.getString(1);
+				System.out.println(str);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
